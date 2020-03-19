@@ -8,5 +8,6 @@ import java.util.List;
 public class SiteItems {
 
     private String siteUrl;
+    private String alias;
     private List<String> items;
 }
