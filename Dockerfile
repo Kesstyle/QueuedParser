@@ -25,6 +25,7 @@ RUN addgroup --system kes_group && adduser --system kes && adduser kes kes_group
 RUN chown kes:kes_group $TARGET
 RUN chown kes:kes_group $TARGET/$JAR_NAME
 RUN chown kes:kes_group $TARGET/$APP_PROPS
+RUN apt-get update && apt-get upgrade && apt-get install sudo && apt-get install nano
 
 USER kes
 

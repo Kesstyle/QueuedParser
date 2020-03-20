@@ -22,6 +22,7 @@ dependencies {
 	}
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
 
+	compile("org.springframework.boot:spring-boot-starter-actuator")
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
 	implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
 	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
@@ -33,3 +34,24 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+jar.doLast {
+	exclude("*application.properties*")
+}
+
+task jarToSharedFolder (type: Copy) {
+	from jar
+	into deployPath
+}
+
+task resourcesToSharedFolder (type: Copy) {
+	from processResources
+	into deployPath
+}
+
+jarToSharedFolder.dependsOn(assemble)
+resourcesToSharedFolder.dependsOn(assemble)
+
+task deploy
+
+deploy.dependsOn(jarToSharedFolder, resourcesToSharedFolder)
